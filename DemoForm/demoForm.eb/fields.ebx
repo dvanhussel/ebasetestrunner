@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<fields>
+    <field name="blaat" type="CHAR" defaultValue="test" labelTextRef="Txt3KMsO9" displayType="TEXT"/>
+    <field name="yesorno" type="BOOLEAN" defaultValue="false" labelTextRef="Txt44tp9N" displayType="RADIO"/>
+</fields>

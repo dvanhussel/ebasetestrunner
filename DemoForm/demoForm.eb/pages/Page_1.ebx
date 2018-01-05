@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<page name="Page_1" nextPage="Page_2" pageHeaderTextRef="TxtAgP0Mj" pageInfoTextReference="Txt10kIyi" pageTrailerTextReference="Txtj3pQW" nextPageTextReference="Txt4vhBBs" prevPageTextReference="Txt6qGVsU">
+    <pageContents>
+        <page ctrl="Pag13TARU" layoutType="FIELD" outputType="0" pdfFooterText="LocalTxt5iODuz" pdfHeaderText="LocalTxt5b5qdT" uid="JnuKaAyD">
+            <panel ctrl="PanbLei4" layoutType="FIELD" uid="PvvRCiVz" width="300px">
+                <layoutProperties>
+                    <FIELD editorWidth="43%" infoWidth="10%" labelWidth="47%"/>
+                </layoutProperties>
+                <field buttonText="LocalTxt1GyZes" ctrl="FldWVDKb" field="yesorno" immediateValidation="true" uid="DOwEVfKo" validationEvent="/events"/>
+                <field buttonText="LocalTxt90mYWT" ctrl="blaatControl" field="blaat" hidden="true" uid="9ovSdMep"/>
+                <button buttonText="LocalTxt53zu8d" ctrl="ButJfx8H" mouseOverText="LocalTxt2ExJGp" uid="3D1V6j04"/>
+                <button buttonText="LocalTXT54_4" ctrl="BUTTON1" default="L" mouseOverText="LocalTXT55_4" onClickEvent="/events" uid="O47wnH8M">
+                    <rootHtmlElementProperties classLocator="button-contrast"/>
+                </button>
+            </panel>
+        </page>
+    </pageContents>
+</page>
