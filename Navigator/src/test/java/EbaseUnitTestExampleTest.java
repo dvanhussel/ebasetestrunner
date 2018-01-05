@@ -34,13 +34,13 @@ public class EbaseUnitTestExampleTest {
 
     @Test
     public void t2_selectYes() {
-        navigator.selectRadioButtonValue("Ja of Nee?","Y");
-        assertEquals(true,navigator.inputIsVisible("Blaat"));
+        navigator.selectRadioButtonValue("Yes or No?","Y");
+        assertEquals(true,navigator.inputIsVisible("Demo"));
     }
 
     @Test
     public void t3_setValue(){
-        navigator.setInputValueByFieldLabel("Blaat","Hello");
+        navigator.setInputValueByFieldLabel("Demo","Hello");
 
     }
 

@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<ebase version="5.2.0">
+    <webForm beforeEvent="/startForm" formHeaderTextRef="Txt7pXY4A" htmlTitleTextRef="Txt8Abssr" finishButtonTextRef="Txt2sTBZG" backButtonSupport="yes" docType="HTML5" firstPage="Page_1" id="elementTest" dateCreated="2018-01-03T00:46:10.766+01:00">
+        <formHeader display="false" navigation="false"/>
+        <saveRestore enabled="false" saveButtonTextRef="TxtA3wq1O" restoreButtonTextRef="Txt3PkDjr" saveInfoTextRef="Txt5bRswB" restoreInfoTextRef="Txt6T5BwZ"/>
+        <finalPage headerTextRef="Txt90qOAX" infoTextRef="Txt2J9u7U" returnTextRef="TxtAO2PoU" inheritStyle="true"/>
+    </webForm>
+</ebase>
