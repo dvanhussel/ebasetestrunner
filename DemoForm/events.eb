@@ -1,5 +1,6 @@
-<?xml version="1.0" encoding="UTF-8"?><ebase version="5.2.0">
-    <script contentType="Javascript" dateCreated="2018-01-03T19:33:31.305+01:00" id="events" preferredComponentPath="/elementTest">
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<ebase version="5.2.0">
+    <script contentType="Javascript" preferredComponentPath="/demoForm" id="events" dateCreated="2018-01-03T19:33:31.305+01:00">
         <scriptText>importPackage(com.ebasetech.xi.api);
 importPackage(com.ebasetech.xi.services);
 

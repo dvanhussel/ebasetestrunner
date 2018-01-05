@@ -1,6 +1,6 @@
-<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <ebase version="5.2.0">
-    <script contentType="Javascript" dateCreated="2018-01-03T18:06:36.232+01:00" id="startForm" preferredComponentPath="/elementTest">
+    <script contentType="Javascript" preferredComponentPath="/demoForm" id="startForm" dateCreated="2018-01-03T18:06:36.232+01:00">
         <scriptText>importPackage(com.ebasetech.xi.api);
 importPackage(com.ebasetech.xi.services);
 var yesOrNo = fields.yesorno.createCustomList();

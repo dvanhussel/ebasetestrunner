@@ -19,7 +19,7 @@ public class EbaseUnitTestExampleTest {
 
     @BeforeClass
     public static void init(){
-        navigator.init("http://localhost:3050/ebasetest/elementTest.eb");
+        navigator.init("http://localhost:3050/ebasetest/demoForm.eb");
     }
 
     @AfterClass
