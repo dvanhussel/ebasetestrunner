@@ -1,4 +1,4 @@
-package nl.haarlem.ebase.unittest;
+package net.vanhussel.ebase.unittest;
 
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;

@@ -1,4 +1,4 @@
-package nl.haarlem.ebase.unittest;
+package net.vanhussel.ebase.unittest;
 
 import java.io.IOException;
 import java.io.InputStream;

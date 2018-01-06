@@ -1,5 +1,5 @@
-import nl.haarlem.ebase.unittest.Navigator;
-import nl.haarlem.ebase.unittest.Utils;
+
+import net.vanhussel.ebase.unittest.Navigator;
 import org.junit.AfterClass;
 import org.junit.BeforeClass;
 import org.junit.FixMethodOrder;
@@ -24,7 +24,7 @@ public class EbaseUnitTestExampleTest {
 
     @AfterClass
     public static void cleanup(){
-       // navigator.quit();
+       navigator.quit();
     }
 
     @Test
