@@ -7,10 +7,10 @@ importPackage(com.ebasetech.xi.services);
 
 if(fields.yesorno.value){
 	//sleepFor(5000);
-	fields.blaat.fieldControl.show();	
+	fields.demo.fieldControl.show();	
 } else {
 	//sleepFor(5000);
-	fields.blaat.fieldControl.hide();	
+	fields.demo.fieldControl.hide();	
 }
 
 function sleepFor( sleepDuration ){

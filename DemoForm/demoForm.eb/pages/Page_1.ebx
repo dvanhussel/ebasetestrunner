@@ -7,7 +7,9 @@
                     <FIELD editorWidth="43%" infoWidth="10%" labelWidth="47%"/>
                 </layoutProperties>
                 <field buttonText="LocalTxt1GyZes" ctrl="FldWVDKb" field="yesorno" immediateValidation="true" uid="DOwEVfKo" validationEvent="/events"/>
-                <field buttonText="LocalTxt90mYWT" ctrl="blaatControl" field="blaat" hidden="true" uid="9ovSdMep"/>
+                <field buttonText="LocalTxt90mYWT" ctrl="blaatControl" field="demo" hidden="true" uid="9ovSdMep"/>
+                <field buttonText="LocalTxtALP3mp" ctrl="FldKx4vh" field="dropdown" immediateValidation="true" uid="85D7Yyv"/>
+                <html ctrl="HtmYJLPT" default="L" htmlText="LocalTxt1aYmko" uid="J90CC3S3"/>
                 <button buttonText="LocalTxt53zu8d" ctrl="ButJfx8H" mouseOverText="LocalTxt2ExJGp" uid="3D1V6j04"/>
                 <button buttonText="LocalTXT54_4" ctrl="BUTTON1" default="L" mouseOverText="LocalTXT55_4" onClickEvent="/events" uid="O47wnH8M">
                     <rootHtmlElementProperties classLocator="button-contrast"/>

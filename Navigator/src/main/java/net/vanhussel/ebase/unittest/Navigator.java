@@ -1,9 +1,11 @@
 package net.vanhussel.ebase.unittest;
 
+
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.firefox.FirefoxDriver;
+import org.openqa.selenium.support.ui.Select;
 
 import java.io.*;
 import java.util.List;
@@ -77,6 +79,15 @@ public class Navigator {
     }
 
     /**
+     * Gets the Selenium WebElement by its Ebase fieldlabel.
+     * @param fieldLabel
+     * @return
+     */
+    private WebElement getSelectByFieldLabel(String fieldLabel){
+        return driver.findElement(By.cssSelector("select[title='"+fieldLabel+"']"));
+    }
+
+    /**
      * Checks if this input (found by its fieldlabel) is visible.
      * @param fieldLabel
      * @return
@@ -94,6 +105,16 @@ public class Navigator {
         WebElement element = this.getInputByFieldLabel(fieldLabel);
         element.clear();
         element.sendKeys(value);
+    }
+
+    /**
+     * Sets the dropdown to provided value.
+     * @param fieldLabel
+     * @param value
+     */
+    public void selectDropdownValueByFieldLabel(String fieldLabel,String value){
+        Select element = new Select(this.getSelectByFieldLabel(fieldLabel));
+        element.selectByValue(value);
     }
 
     /**

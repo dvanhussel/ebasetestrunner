@@ -24,7 +24,7 @@ public class EbaseUnitTestExampleTest {
 
     @AfterClass
     public static void cleanup(){
-       navigator.quit();
+       //navigator.quit();
     }
 
     @Test
@@ -41,7 +41,11 @@ public class EbaseUnitTestExampleTest {
     @Test
     public void t3_setValue(){
         navigator.setInputValueByFieldLabel("Demo","Hello");
+    }
 
+    @Test
+    public void t4_selectDropdownValue(){
+        navigator.selectDropdownValueByFieldLabel("Dropdown","1");
     }
 
     @Test

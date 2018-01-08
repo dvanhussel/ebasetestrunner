@@ -5,6 +5,10 @@
 importPackage(com.ebasetech.xi.services);
 var yesOrNo = fields.yesorno.createCustomList();
 yesOrNo.add('Ja', 'Y');
-yesOrNo.add('Nee', 'N');</scriptText>
+yesOrNo.add('Nee', 'N');
+
+var dropdown = fields.dropdown.createCustomList();
+dropdown.add('Option 1',1);
+dropdown.add('Option 2',2);</scriptText>
     </script>
 </ebase>
