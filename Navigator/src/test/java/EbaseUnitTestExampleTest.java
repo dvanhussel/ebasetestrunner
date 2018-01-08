@@ -24,7 +24,7 @@ public class EbaseUnitTestExampleTest {
 
     @AfterClass
     public static void cleanup(){
-       //navigator.quit();
+       navigator.quit();
     }
 
     @Test
@@ -45,11 +45,12 @@ public class EbaseUnitTestExampleTest {
 
     @Test
     public void t4_selectDropdownValue(){
-        navigator.selectDropdownValueByFieldLabel("Dropdown","1");
+        navigator.selectDropdownValueByFieldLabel("Dropdown","2");
+        assertEquals(true,navigator.pageContainsText("2 is selected"));
     }
 
     @Test
-    public void t4_clickButton(){
+    public void t5_clickButton(){
         navigator.clickButtonByValue("Next page");
         assertEquals(true,navigator.pageContainsText("Page 2"));
     }
