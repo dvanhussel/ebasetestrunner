@@ -50,7 +50,13 @@ public class EbaseUnitTestExampleTest {
     }
 
     @Test
-    public void t5_clickButton(){
+    public void t5_textareaValue(){
+        navigator.setTextareaValueByFieldLabel("Textarea","Textarea");
+
+    }
+
+    @Test
+    public void t6_clickButton(){
         navigator.clickButtonByValue("Next page");
         assertEquals(true,navigator.pageContainsText("Page 2"));
     }

@@ -10,6 +10,7 @@
                 <field buttonText="LocalTxt90mYWT" ctrl="blaatControl" field="demo" hidden="true" uid="9ovSdMep"/>
                 <field buttonText="LocalTxtALP3mp" ctrl="FldKx4vh" field="dropdown" immediateValidation="true" uid="85D7Yyv"/>
                 <html ctrl="HtmYJLPT" default="L" htmlText="LocalTxt1aYmko" uid="J90CC3S3"/>
+                <field buttonText="LocalTxt3ZVD1L" ctrl="Fld6tPD1" field="textarea" uid="2uuifx8S"/>
                 <button buttonText="LocalTxt53zu8d" ctrl="ButJfx8H" mouseOverText="LocalTxt2ExJGp" uid="3D1V6j04"/>
                 <button buttonText="LocalTXT54_4" ctrl="BUTTON1" default="L" mouseOverText="LocalTXT55_4" onClickEvent="/events" uid="O47wnH8M">
                     <rootHtmlElementProperties classLocator="button-contrast"/>

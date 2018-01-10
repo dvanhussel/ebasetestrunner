@@ -56,7 +56,7 @@ public class Navigator {
      * @param fieldLabel
      * @param value
      */
-    public void selectRadioButtonValue(String fieldLabel,String value){
+    public void selectRadioButtonValue(String fieldLabel,String value)  {
         //Get all radio buttons that have this label as title
         List<WebElement> radioButtons = driver.findElements(By.cssSelector("input[title='"+fieldLabel+"']"));
         //Get the radiobutton that has de value that should be selected
@@ -67,6 +67,7 @@ public class Navigator {
 
         //select radioButton
         radioButtonToSelect.click();
+
     }
 
     /**
@@ -77,6 +78,16 @@ public class Navigator {
     private WebElement getInputByFieldLabel(String fieldLabel){
         return driver.findElement(By.cssSelector("input[title='"+fieldLabel+"']"));
     }
+
+    /**
+     * Gets the Selenium WebElement by its Ebase fieldlabel.
+     * @param fieldLabel
+     * @return
+     */
+    private WebElement getTextareaByFieldLabel(String fieldLabel){
+        return driver.findElement(By.cssSelector("textarea[title='"+fieldLabel+"']"));
+    }
+
 
     /**
      * Gets the Selenium WebElement by its Ebase fieldlabel.
@@ -101,8 +112,29 @@ public class Navigator {
      * @param fieldLabel
      * @param value
      */
-    public void setInputValueByFieldLabel(String fieldLabel,String value){
+    public void setInputValueByFieldLabel(String fieldLabel,String value) {
         WebElement element = this.getInputByFieldLabel(fieldLabel);
+        element.clear();
+        element.sendKeys(value);
+    }
+
+    /**
+     * Gets the current value of this form input
+     * @param fieldLabel
+     * @return
+     */
+    public String getInputValueByFieldLabel(String fieldLabel){
+        WebElement element = this.getInputByFieldLabel(fieldLabel);
+        return this.getInputByFieldLabel(fieldLabel).getAttribute("value");
+    }
+
+    /**
+     * Clears the textarea of its current value and set it to the provided value.
+     * @param fieldLabel
+     * @param value
+     */
+    public void setTextareaValueByFieldLabel(String fieldLabel,String value){
+        WebElement element = this.getTextareaByFieldLabel(fieldLabel);
         element.clear();
         element.sendKeys(value);
     }
@@ -124,6 +156,20 @@ public class Navigator {
     public void clickButtonByValue(String value){
         WebElement element = driver.findElement(By.cssSelector("input[type='submit'][value='"+value+"']"));
         element.click();
+    }
+
+    /**
+     * Click the Ebase button that has this text as value and waits the specified amount of milliseconds
+     * @param value
+     * @param wait
+     */
+    public void clickButtonByValue(String value,int wait){
+        WebElement element = driver.findElement(By.cssSelector("input[type='submit'][value='"+value+"']"));
+        element.click();
+        try {
+            Thread.sleep(wait);
+        } catch (InterruptedException e) {
+        }
     }
 
     /**
