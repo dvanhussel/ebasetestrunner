@@ -20,4 +20,16 @@ public class Utils {
         return properties;
     }
 
+    /**
+     * Suspends the execution for given amount of milliseconds
+     * @param milliseconds
+     */
+    public static void wait(int milliseconds){
+        try {
+            Thread.sleep(milliseconds);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+    }
+
 }

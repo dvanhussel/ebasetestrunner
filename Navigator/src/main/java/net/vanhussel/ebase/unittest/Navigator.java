@@ -1,14 +1,13 @@
 package net.vanhussel.ebase.unittest;
 
 
-import org.apache.xpath.operations.Bool;
+import com.gargoylesoftware.htmlunit.BrowserVersion;
 import org.openqa.selenium.By;
 import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.firefox.FirefoxDriver;
 import org.openqa.selenium.htmlunit.HtmlUnitDriver;
-import org.openqa.selenium.support.ui.ExpectedCondition;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.Select;
 import org.openqa.selenium.support.ui.WebDriverWait;
@@ -16,7 +15,6 @@ import org.openqa.selenium.support.ui.WebDriverWait;
 import java.util.List;
 import java.util.Properties;
 import java.util.concurrent.TimeUnit;
-import java.util.function.Predicate;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.util.stream.Collectors;
@@ -29,12 +27,12 @@ public class Navigator {
     /**
      * Initializes the Selium webdriver to use Firefox
      */
-    private void initializeDriver(Boolean headless){
+    private void initializeDriver(BrowserVersion browserVersion){
         properties = Utils.readPropertiesFromFile("application.properties");
         System.setProperty("webdriver.gecko.driver", properties.getProperty("geckodriver"));
 
-        if(headless){
-            driver = new HtmlUnitDriver(true);
+        if(browserVersion != null){
+            driver = new HtmlUnitDriver(browserVersion,true);
         } else {
             driver = new FirefoxDriver();
         }
@@ -58,7 +56,7 @@ public class Navigator {
      * This will initialize the Selenium webdriver without loading a form
      */
     public void init(){
-        this.initializeDriver(true);
+        this.initializeDriver(null);
     }
 
     /**
@@ -66,7 +64,7 @@ public class Navigator {
      * @param url
      */
     public void init (String url) {
-        this.initializeDriver(true);
+        this.initializeDriver(null);
         this.loadForm(url);
     }
 
@@ -74,8 +72,8 @@ public class Navigator {
      * This wil initialize the Selenium webdriver and load the form with this URL
      * @param url
      */
-    public void init (String url, Boolean headless) {
-        this.initializeDriver(headless);
+    public void init (String url, BrowserVersion browserVersion) {
+        this.initializeDriver(browserVersion);
         this.loadForm(url);
     }
 
@@ -148,6 +146,10 @@ public class Navigator {
         WebElement element = this.getInputByFieldLabel(fieldLabel);
         element.click();
         element.clear();
+
+        //wait for possible AJAX trigger that can detach the element from the DOM, then get new reference to same element
+        Utils.wait(500);
+        element = this.getInputByFieldLabel(fieldLabel);
         element.sendKeys(value);
     }
 
@@ -170,12 +172,10 @@ public class Navigator {
         WebElement element = this.getTextareaByFieldLabel(fieldLabel);
         element.click();
         element.clear();
+        //wait for possible AJAX trigger that can detach the element from the DOM, then get new reference to same element
+        Utils.wait(500);
+        element = this.getTextareaByFieldLabel(fieldLabel);
         element.sendKeys(value);
-        try {
-            Thread.sleep(1000);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
     }
 
     /**
@@ -186,11 +186,12 @@ public class Navigator {
     public void selectDropdownValueByFieldLabel(String fieldLabel,String value){
         Select element = new Select(this.getSelectByFieldLabel(fieldLabel));
         element.selectByValue(value);
-        try {
-            Thread.sleep(1000);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
+
+        //wait for possible AJAX trigger that can detach the element from the DOM, then get new reference to same element and reset value
+        Utils.wait(500);
+        element = new Select(this.getSelectByFieldLabel(fieldLabel));
+        element.selectByValue(value);
+
     }
 
     public WebElement getInputElementByFieldLabel(String fieldLabel){
@@ -203,26 +204,12 @@ public class Navigator {
      */
     public void clickButtonByValue(String value){
         try{
-
-            //driver.findElement(By.xpath("/html/body")).click();
-
-
-            System.out.println("Button click requested for button: "+value);
             WebElement element = driver.findElement(By.cssSelector("input[type='submit'][value='"+value+"']"));
-            System.out.println("Button found: "+element.getAttribute("value"));
-
             element.click();
-            System.out.println("Button clicked");
         } catch(Exception ex){
             ex.printStackTrace();
         }
-
-
-        try {
-            Thread.sleep(1000);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
+        Utils.wait(500);
     }
 
     /**

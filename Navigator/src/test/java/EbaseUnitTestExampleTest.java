@@ -1,4 +1,5 @@
 
+import com.gargoylesoftware.htmlunit.BrowserVersion;
 import net.vanhussel.ebase.unittest.Navigator;
 import org.junit.AfterClass;
 import org.junit.BeforeClass;
@@ -19,7 +20,7 @@ public class EbaseUnitTestExampleTest {
 
     @BeforeClass
     public static void init(){
-        navigator.init("http://localhost:3050/ebasetest/demoForm.eb",true);
+        navigator.init("http://localhost:3050/ebasetest/demoForm.eb", BrowserVersion.BEST_SUPPORTED);
     }
 
     @AfterClass
@@ -33,7 +34,7 @@ public class EbaseUnitTestExampleTest {
     }
 
     @Test
-    public void t2_selectYes() {
+    public void t2_selectYes() throws InterruptedException {
         navigator.selectRadioButtonValue("Yes or No?","Y");
         assertEquals(true,navigator.inputIsVisible("Demo"));
     }
@@ -51,8 +52,7 @@ public class EbaseUnitTestExampleTest {
 
     @Test
     public void t5_textareaValue(){
-        navigator.setTextareaValueByFieldLabel("Textarea","Textarea");
-
+      navigator.setTextareaValueByFieldLabel("Textarea","Textarea");
     }
 
     @Test
