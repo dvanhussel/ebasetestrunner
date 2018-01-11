@@ -1,30 +1,49 @@
 package net.vanhussel.ebase.unittest;
 
 
+import org.apache.xpath.operations.Bool;
 import org.openqa.selenium.By;
+import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.firefox.FirefoxDriver;
+import org.openqa.selenium.htmlunit.HtmlUnitDriver;
+import org.openqa.selenium.support.ui.ExpectedCondition;
+import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.Select;
+import org.openqa.selenium.support.ui.WebDriverWait;
 
-import java.io.*;
 import java.util.List;
 import java.util.Properties;
 import java.util.concurrent.TimeUnit;
+import java.util.function.Predicate;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import java.util.stream.Collectors;
 
 public class Navigator {
     private static WebDriver driver = null;
     private static Properties properties = null;
+    WebDriverWait wait = null;
 
     /**
      * Initializes the Selium webdriver to use Firefox
      */
-    private void initializeDriver(){
+    private void initializeDriver(Boolean headless){
         properties = Utils.readPropertiesFromFile("application.properties");
         System.setProperty("webdriver.gecko.driver", properties.getProperty("geckodriver"));
-        driver = new FirefoxDriver();
+
+        if(headless){
+            driver = new HtmlUnitDriver(true);
+        } else {
+            driver = new FirefoxDriver();
+        }
+
+        wait = new WebDriverWait(driver, 10);
+
         driver.manage().timeouts().implicitlyWait(Long.parseLong(properties.getProperty("timeout")), TimeUnit.SECONDS);
+        Logger logger = Logger.getLogger("");
+        logger.setLevel(Level.OFF);
     }
 
     /**
@@ -39,7 +58,7 @@ public class Navigator {
      * This will initialize the Selenium webdriver without loading a form
      */
     public void init(){
-        this.initializeDriver();
+        this.initializeDriver(true);
     }
 
     /**
@@ -47,7 +66,16 @@ public class Navigator {
      * @param url
      */
     public void init (String url) {
-        this.initializeDriver();
+        this.initializeDriver(true);
+        this.loadForm(url);
+    }
+
+    /**
+     * This wil initialize the Selenium webdriver and load the form with this URL
+     * @param url
+     */
+    public void init (String url, Boolean headless) {
+        this.initializeDriver(headless);
         this.loadForm(url);
     }
 
@@ -67,7 +95,11 @@ public class Navigator {
 
         //select radioButton
         radioButtonToSelect.click();
-
+        try {
+            Thread.sleep(200);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
     }
 
     /**
@@ -76,7 +108,7 @@ public class Navigator {
      * @return
      */
     private WebElement getInputByFieldLabel(String fieldLabel){
-        return driver.findElement(By.cssSelector("input[title='"+fieldLabel+"']"));
+        return  wait.until(ExpectedConditions.elementToBeClickable(By.cssSelector("input[title='"+fieldLabel+"']")));
     }
 
     /**
@@ -85,7 +117,7 @@ public class Navigator {
      * @return
      */
     private WebElement getTextareaByFieldLabel(String fieldLabel){
-        return driver.findElement(By.cssSelector("textarea[title='"+fieldLabel+"']"));
+        return wait.until(ExpectedConditions.elementToBeClickable(By.cssSelector("textarea[title='"+fieldLabel+"']")));
     }
 
 
@@ -114,6 +146,7 @@ public class Navigator {
      */
     public void setInputValueByFieldLabel(String fieldLabel,String value) {
         WebElement element = this.getInputByFieldLabel(fieldLabel);
+        element.click();
         element.clear();
         element.sendKeys(value);
     }
@@ -135,8 +168,14 @@ public class Navigator {
      */
     public void setTextareaValueByFieldLabel(String fieldLabel,String value){
         WebElement element = this.getTextareaByFieldLabel(fieldLabel);
+        element.click();
         element.clear();
         element.sendKeys(value);
+        try {
+            Thread.sleep(1000);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
     }
 
     /**
@@ -147,6 +186,15 @@ public class Navigator {
     public void selectDropdownValueByFieldLabel(String fieldLabel,String value){
         Select element = new Select(this.getSelectByFieldLabel(fieldLabel));
         element.selectByValue(value);
+        try {
+            Thread.sleep(1000);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public WebElement getInputElementByFieldLabel(String fieldLabel){
+        return this.getInputByFieldLabel(fieldLabel);
     }
 
     /**
@@ -154,8 +202,27 @@ public class Navigator {
      * @param value
      */
     public void clickButtonByValue(String value){
-        WebElement element = driver.findElement(By.cssSelector("input[type='submit'][value='"+value+"']"));
-        element.click();
+        try{
+
+            //driver.findElement(By.xpath("/html/body")).click();
+
+
+            System.out.println("Button click requested for button: "+value);
+            WebElement element = driver.findElement(By.cssSelector("input[type='submit'][value='"+value+"']"));
+            System.out.println("Button found: "+element.getAttribute("value"));
+
+            element.click();
+            System.out.println("Button clicked");
+        } catch(Exception ex){
+            ex.printStackTrace();
+        }
+
+
+        try {
+            Thread.sleep(1000);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
     }
 
     /**
@@ -203,4 +270,24 @@ public class Navigator {
     public String getFormTitle(){
         return driver.getTitle();
     }
+
+    public void waitForJStoLoad() {
+
+        JavascriptExecutor js = (JavascriptExecutor)driver;
+
+        for (int i=0; i<25; i++){
+            try {
+                Thread.sleep(1000);
+            }catch (InterruptedException e) {}
+            //To check page ready state.
+            if (js.executeScript("return document.readyState").toString().equals("complete")){
+                System.out.println("Js is ready");
+                break;
+            }
+        }
+
+    }
+
+
+
 }
