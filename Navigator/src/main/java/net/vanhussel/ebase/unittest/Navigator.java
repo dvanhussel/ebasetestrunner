@@ -1,6 +1,5 @@
 package net.vanhussel.ebase.unittest;
 
-
 import com.gargoylesoftware.htmlunit.BrowserVersion;
 import org.openqa.selenium.By;
 import org.openqa.selenium.JavascriptExecutor;
@@ -25,7 +24,10 @@ public class Navigator {
     WebDriverWait wait = null;
 
     /**
-     * Initializes the Selium webdriver to use Firefox
+     * Initializes the Selium webdriver
+     *
+     * If no browserversion is supplied the gecko webdriver is used (en should be configured in the application properties).
+     * @param browserVersion
      */
     private void initializeDriver(BrowserVersion browserVersion){
         properties = Utils.readPropertiesFromFile("application.properties");
@@ -37,9 +39,11 @@ public class Navigator {
             driver = new FirefoxDriver();
         }
 
-        wait = new WebDriverWait(driver, 10);
+        wait = new WebDriverWait(driver,Long.parseLong(properties.getProperty("timeout"), 10) );
 
         driver.manage().timeouts().implicitlyWait(Long.parseLong(properties.getProperty("timeout")), TimeUnit.SECONDS);
+
+        //Disable console logger to prevent Webdriver to log all CSS-errors
         Logger logger = Logger.getLogger("");
         logger.setLevel(Level.OFF);
     }
@@ -78,26 +82,37 @@ public class Navigator {
     }
 
     /**
+     * Gets the radiobutton option for this field with this value
+     * @param fieldLabel
+     * @param value
+     * @return
+     */
+    private WebElement getRadioButtonByFieldLabelAndValue(String fieldLabel,String value){
+        //Get all radio buttons that have this label as title
+        List<WebElement> radioButtons = driver.findElements(By.cssSelector("input[title='"+fieldLabel+"']"));
+        //Get the radiobutton that has de value that should be selected
+        WebElement radioButton = radioButtons.stream()
+                .filter(el->el.getAttribute("value").equals(value))
+                .collect(Collectors.toList())
+                .get(0);
+
+       return  radioButton;
+    }
+
+    /**
      * Sets a field of the radiobutton type to the supplied value. The field is found by its fieldlabel.
      * @param fieldLabel
      * @param value
      */
     public void selectRadioButtonValue(String fieldLabel,String value)  {
-        //Get all radio buttons that have this label as title
-        List<WebElement> radioButtons = driver.findElements(By.cssSelector("input[title='"+fieldLabel+"']"));
-        //Get the radiobutton that has de value that should be selected
-        WebElement radioButtonToSelect = radioButtons.stream()
-                .filter(el->el.getAttribute("value").equals(value))
-                .collect(Collectors.toList())
-                .get(0);
+        getRadioButtonByFieldLabelAndValue(fieldLabel,value).click();
+        //((JavascriptExecutor) driver).executeScript("arguments[0].checked = true;", radioButtonToSelect);
+        //Wait for AJAX calls and reset value
+        Utils.wait(1000);
+        getRadioButtonByFieldLabelAndValue(fieldLabel,value).click();
 
-        //select radioButton
-        radioButtonToSelect.click();
-        try {
-            Thread.sleep(200);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
+        //Also set value with JavaScript, otherwise the value won't set correctly when headless mode is used.
+        ((JavascriptExecutor) driver).executeScript("arguments[0].checked = true;", getRadioButtonByFieldLabelAndValue(fieldLabel,value));
     }
 
     /**
@@ -148,7 +163,7 @@ public class Navigator {
         element.clear();
 
         //wait for possible AJAX trigger that can detach the element from the DOM, then get new reference to same element
-        Utils.wait(500);
+        Utils.wait(1500);
         element = this.getInputByFieldLabel(fieldLabel);
         element.sendKeys(value);
     }
@@ -173,7 +188,7 @@ public class Navigator {
         element.click();
         element.clear();
         //wait for possible AJAX trigger that can detach the element from the DOM, then get new reference to same element
-        Utils.wait(500);
+        Utils.wait(1500);
         element = this.getTextareaByFieldLabel(fieldLabel);
         element.sendKeys(value);
     }
@@ -188,7 +203,7 @@ public class Navigator {
         element.selectByValue(value);
 
         //wait for possible AJAX trigger that can detach the element from the DOM, then get new reference to same element and reset value
-        Utils.wait(500);
+        Utils.wait(1500);
         element = new Select(this.getSelectByFieldLabel(fieldLabel));
         element.selectByValue(value);
 
@@ -209,7 +224,7 @@ public class Navigator {
         } catch(Exception ex){
             ex.printStackTrace();
         }
-        Utils.wait(500);
+        Utils.wait(1500);
     }
 
     /**
@@ -257,24 +272,4 @@ public class Navigator {
     public String getFormTitle(){
         return driver.getTitle();
     }
-
-    public void waitForJStoLoad() {
-
-        JavascriptExecutor js = (JavascriptExecutor)driver;
-
-        for (int i=0; i<25; i++){
-            try {
-                Thread.sleep(1000);
-            }catch (InterruptedException e) {}
-            //To check page ready state.
-            if (js.executeScript("return document.readyState").toString().equals("complete")){
-                System.out.println("Js is ready");
-                break;
-            }
-        }
-
-    }
-
-
-
 }
