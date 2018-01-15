@@ -159,13 +159,7 @@ public class Navigator {
      */
     public void setInputValueByFieldLabel(String fieldLabel,String value) {
         WebElement element = this.getInputByFieldLabel(fieldLabel);
-        element.click();
-        element.clear();
-
-        //wait for possible AJAX trigger that can detach the element from the DOM, then get new reference to same element
-        Utils.wait(1500);
-        element = this.getInputByFieldLabel(fieldLabel);
-        element.sendKeys(value);
+        ((JavascriptExecutor) driver).executeScript("arguments[0].value = '"+value+"';",element);
     }
 
     /**
@@ -185,12 +179,7 @@ public class Navigator {
      */
     public void setTextareaValueByFieldLabel(String fieldLabel,String value){
         WebElement element = this.getTextareaByFieldLabel(fieldLabel);
-        element.click();
-        element.clear();
-        //wait for possible AJAX trigger that can detach the element from the DOM, then get new reference to same element
-        Utils.wait(1500);
-        element = this.getTextareaByFieldLabel(fieldLabel);
-        element.sendKeys(value);
+        ((JavascriptExecutor) driver).executeScript("arguments[0].value = '"+value+"';",element);
     }
 
     /**
@@ -209,9 +198,6 @@ public class Navigator {
 
     }
 
-    public WebElement getInputElementByFieldLabel(String fieldLabel){
-        return this.getInputByFieldLabel(fieldLabel);
-    }
 
     /**
      * Click the Ebase button that has this text as value.
@@ -220,24 +206,9 @@ public class Navigator {
     public void clickButtonByValue(String value){
         try{
             WebElement element = driver.findElement(By.cssSelector("input[type='submit'][value='"+value+"']"));
-            element.click();
+            ((JavascriptExecutor) driver).executeScript("arguments[0].click();",element);
         } catch(Exception ex){
             ex.printStackTrace();
-        }
-        Utils.wait(1500);
-    }
-
-    /**
-     * Click the Ebase button that has this text as value and waits the specified amount of milliseconds
-     * @param value
-     * @param wait
-     */
-    public void clickButtonByValue(String value,int wait){
-        WebElement element = driver.findElement(By.cssSelector("input[type='submit'][value='"+value+"']"));
-        element.click();
-        try {
-            Thread.sleep(wait);
-        } catch (InterruptedException e) {
         }
     }
 
