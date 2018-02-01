@@ -59,4 +59,8 @@ public class EbaseUnitTestExampleTest {
         navigator.clickButtonByValue("Next page");
         assertEquals(true,navigator.pageContainsText("Page 2"));
     }
+
+    public void t7_newSession(){
+        navigator.loadForm("http://localhost:3050/ebasetest/demoForm.eb",true);
+    }
 }

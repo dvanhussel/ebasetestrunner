@@ -22,6 +22,7 @@ public class Navigator {
     private static WebDriver driver = null;
     private static Properties properties = null;
     WebDriverWait wait = null;
+    private static BrowserVersion browserVersion = null;
 
     /**
      * Initializes the Selium webdriver
@@ -34,7 +35,8 @@ public class Navigator {
         System.setProperty("webdriver.gecko.driver", properties.getProperty("geckodriver"));
 
         if(browserVersion != null){
-            driver = new HtmlUnitDriver(browserVersion,true);
+            this.browserVersion = browserVersion;
+            driver = new HtmlUnitDriver(this.browserVersion,true);
         } else {
             driver = new FirefoxDriver();
         }
@@ -226,6 +228,20 @@ public class Navigator {
      * @param url
      */
     public void loadForm(String url){
+        driver.get(url);
+    }
+
+    /**
+     * Close the driver sesison and start a new one and load the form by its complete URL (i.e https://www.haarlem.ni/ufs/kenteken_activeren.eb).
+     * @param url
+     * @param newSession
+     */
+    public void loadForm(String url,boolean newSession){
+        if(newSession){
+            driver.quit();
+            driver = null;
+            init(url,this.browserVersion);
+        }
         driver.get(url);
     }
 
