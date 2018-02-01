@@ -214,6 +214,15 @@ public class Navigator {
         }
     }
 
+    public void clickLinkByText(String text){
+        try{
+            WebElement element = driver.findElement(By.xpath("//a[text()='"+text+"']"));
+            ((JavascriptExecutor) driver).executeScript("arguments[0].click();",element);
+        } catch(Exception ex){
+            ex.printStackTrace();
+        }
+    }
+
     /**
      * Cheks if this text is displayed anywhere on the page
      * @param text
