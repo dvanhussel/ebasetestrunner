@@ -1,6 +1,7 @@
 package net.vanhussel.ebase.unittest;
 
 import com.gargoylesoftware.htmlunit.BrowserVersion;
+import com.gargoylesoftware.htmlunit.WebClient;
 import org.openqa.selenium.By;
 import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebDriver;
@@ -84,21 +85,38 @@ public class Navigator {
     }
 
     /**
+     * Checks if a radio button with this value exists on the current page
+     * @param fieldLabel
+     * @param value
+     * @return
+     */
+    public boolean radioButtonOptionExists(String fieldLabel,String value){
+        return (getRadioButtonByFieldLabelAndValue(fieldLabel,value)!=null);
+    }
+
+    /**
      * Gets the radiobutton option for this field with this value
      * @param fieldLabel
      * @param value
      * @return
      */
     private WebElement getRadioButtonByFieldLabelAndValue(String fieldLabel,String value){
-        //Get all radio buttons that have this label as title
-        List<WebElement> radioButtons = driver.findElements(By.cssSelector("input[title='"+fieldLabel+"']"));
-        //Get the radiobutton that has de value that should be selected
-        WebElement radioButton = radioButtons.stream()
-                .filter(el->el.getAttribute("value").equals(value))
-                .collect(Collectors.toList())
-                .get(0);
+        WebElement radioButton = null;
 
-       return  radioButton;
+        try{
+            //Get all radio buttons that have this label as title
+            List<WebElement> radioButtons = driver.findElements(By.cssSelector("input[title='"+fieldLabel+"']"));
+            //Get the radiobutton that has de value that should be selected
+            radioButton = radioButtons.stream()
+                    .filter(el->el.getAttribute("value").equals(value))
+                    .collect(Collectors.toList())
+                    .get(0);return  radioButton;
+        } catch(Exception ex){
+
+        }
+        return radioButton;
+
+
     }
 
     /**
@@ -229,7 +247,14 @@ public class Navigator {
      * @return
      */
     public boolean pageContainsText(String text){
-        return driver.findElements(By.xpath("//*[contains(text(),'" + text + "')]")).size() > 0;
+        //try to find by xpath
+        boolean result = driver.findElements(By.xpath("//*[contains(text(),'" + text + "')]")).size() > 0;
+        if(result==false){
+           String test = driver.getPageSource();
+            //not found, search raw HTML, this is done after the xpath-search because otherwise 'old'-html may be searched if the page is reloading.
+           result = driver.getPageSource().contains(text);
+        }
+        return result;
     }
 
     /**

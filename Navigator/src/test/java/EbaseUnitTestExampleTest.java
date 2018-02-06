@@ -41,6 +41,7 @@ public class EbaseUnitTestExampleTest {
     @Test
     public void t3_setValue(){
         navigator.setInputValueByFieldLabel("Demo","Hello");
+        assertEquals(true,navigator.pageContainsText("Hello"));
     }
 
     @Test
